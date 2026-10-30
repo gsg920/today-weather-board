@@ -18,8 +18,9 @@
       <div class="hero-top">
         <div>
           <p class="muted">대전 현재 기온</p>
-          <div class="temperature"><span id="temperature">--.-</span><small>°C</small></div>
+          <div class="temperature"><span id="temperature">--.-</span><small id="unit">°C</small></div>
           <p id="weatherText" class="weather-text">아직 조회하지 않았습니다.</p>
+          <span id="staleBadge" class="pill" hidden>오래된 값 — 마지막 정상값입니다</span>
         </div>
         <div class="weather-icon" aria-hidden="true">☁</div>
       </div>
@@ -31,11 +32,12 @@
         <p><b>출처 관측 시각</b> <span id="observedAt">-</span></p>
         <p><b>조회 시각 (KST)</b> <span id="queriedAt">-</span></p>
         <p><b>기준 시간대</b> Asia/Seoul</p>
+        <p><b>출처 URL</b> <span id="sourceUrl">-</span></p>
         <p><b>출처</b> <a id="sourceLink" href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo Forecast API</a></p>
       </div>
       <div class="actions">
         <button id="refreshBtn">실제 데이터 조회</button>
-        <button id="clearErrorBtn" class="secondary">상태 초기화</button>
+        <button id="retryBtn" class="secondary">다시 시도</button>
       </div>
       <p id="message" class="message" role="status">실제 공개 원천을 조회하면 값이 표시됩니다.</p>
     </section>
@@ -45,35 +47,31 @@
         <div><p class="eyebrow">HISTORY</p><h2>일별 기록</h2></div>
         <span id="recordCount" class="pill">0건</span>
       </div>
-      <p class="muted small">날짜별 첫 성공 기록을 보존합니다. 같은 KST 날짜의 재조회는 기존 기록을 덮어쓰지 않습니다.</p>
+      <p class="muted small">같은 KST 날짜의 재조회는 새 행을 만들지 않고 그날 행을 갱신합니다. 다음 KST 날짜의 성공 조회는 새 행을 만듭니다. 실패는 기존 값을 지우지 않습니다.</p>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>날짜 (KST)</th><th>기온</th><th>관측 시각</th><th>출처</th></tr></thead>
-          <tbody id="historyBody"><tr><td colspan="4" class="empty">아직 기록이 없습니다.</td></tr></tbody>
+          <thead><tr><th>날짜 (KST)</th><th>기온</th><th>출처 시각</th><th>조회 시각</th><th>출처</th></tr></thead>
+          <tbody id="historyBody"><tr><td colspan="5" class="empty">아직 기록이 없습니다.</td></tr></tbody>
         </table>
       </div>
     </section>
 
-    <section class="panel">
-      <div class="section-head"><div><p class="eyebrow">SAFE FAILURE TESTS</p><h2>실패 상황 합성 재생</h2></div></div>
-      <p class="muted small">아래는 합성 시험이며 실제 API 장애를 발생시키지 않습니다. 정상 조회 후 실행하면 마지막 정상값이 보존되는지 확인할 수 있습니다.</p>
-      <div class="test-buttons">
-        <button class="test" data-failure="slow">응답 지연</button>
-        <button class="test" data-failure="denied">401/403 거절</button>
-        <button class="test" data-failure="limited">호출 제한</button>
-        <button class="test" data-failure="offline">오프라인</button>
-        <button class="test" data-failure="schema">응답 형식 변경</button>
+    <section class="panel verify-link">
+      <div>
+        <p class="eyebrow">VERIFICATION</p>
+        <h2>실패·회복 동작 검증</h2>
+        <p class="muted small">timeout·401·429·오프라인·형식 변경 상황을 합성 데이터로 재생해 마지막 정상값 보존과 회복을 확인합니다. 실제 기록은 바뀌지 않습니다.</p>
       </div>
-      <div id="testResult" class="test-result" aria-live="polite">실패 유형을 선택하면 안내와 재시도 방법이 표시됩니다.</div>
-      <button id="recoverBtn" class="secondary">합성 복구 확인</button>
-      <p class="muted small">복구 버튼은 UI 상태를 정상으로 되돌리는 데모입니다. 실제 API를 다시 조회하려면 ‘실제 데이터 조회’를 누르세요.</p>
+      <a class="btn" href="verify.html">검증 화면으로 이동 →</a>
     </section>
 
     <footer>
       <p>데이터 출처: Open-Meteo · 위치: 대전 (위도 36.3504, 경도 127.3845)</p>
-      <p>참고: 브라우저 저장소를 사용하므로 기록은 이 브라우저에 저장됩니다. 다른 기기와 자동 공유되지 않습니다.</p>
+      <p>참고: 기록은 이 브라우저의 localStorage에 저장되며 다른 기기와 공유되지 않습니다. 로그인·계정·비밀키는 사용하지 않습니다.</p>
     </footer>
   </main>
+  <script src="board-core.js"></script>
+  <script src="common.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
