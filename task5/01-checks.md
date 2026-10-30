@@ -34,7 +34,7 @@
 > today-weather-board 저장소에서 task5/01-checks.md 의 기능을 구현해 고정 검사 10개를 모두 통과시키고, formatChange 를 app.js 의 "어제 대비" 표시에 연결하라. 검사·기대값은 수정하지 말고, 상한(60분/30회)을 지켜라. 멈출 때는 task5/03-handoff.md 를 갱신하라. (B는 저장소와 task5/03-handoff.md 만 받는다.)
 
 ## 시작 소스
-- 시작 commit: START_COMMIT_PLACEHOLDER
+- 시작 commit: 353db8955ded7b88e61ada7685a738a3729fc809
 - AI A 시작 시각: 2026-10-30 11:24
 
 ## 계획한 멈춤 시점 (A)
