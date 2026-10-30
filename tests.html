@@ -1,0 +1,17 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>formatChange checks</title>
+<pre id="out">RUNNING</pre>
+<script src="format-change.js"></script>
+<script src="task5/checks.js"></script>
+<script>
+  const lines = []; let pass = 0;
+  for (const [id, prev, curr, want] of CHECKS) {
+    let got;
+    try { got = formatChange(prev, curr); } catch (e) { got = "THROWN " + e.message; }
+    const ok = got === want; if (ok) pass++;
+    lines.push(`${id} ${ok ? "PASS" : "FAIL"} got=${JSON.stringify(got)} want=${JSON.stringify(want)}`);
+  }
+  lines.push(`RESULT ${pass}/${CHECKS.length}`);
+  document.getElementById("out").textContent = lines.join("\n");
+</script>
